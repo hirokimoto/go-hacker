@@ -16,6 +16,8 @@ import (
 	"github.com/martinlindhe/notify"
 )
 
+var letters = []rune("abcdef0123456789")
+
 func main() {
 	charset := "abcdef0123456789"
 	length := 64
@@ -28,14 +30,14 @@ func main() {
 	// remember to close the file
 	defer f.Close()
 
+	client, err := ethclient.Dial("https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161")
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	go func() {
 		for {
 			data, err := random.Random(length, charset, true)
-			if err != nil {
-				fmt.Println(err)
-			}
-
-			client, err := ethclient.Dial("https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161")
 			if err != nil {
 				fmt.Println(err)
 			}
