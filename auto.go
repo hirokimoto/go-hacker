@@ -40,23 +40,27 @@ func main() {
 			data, err := random.Random(length, charset, true)
 			if err != nil {
 				fmt.Println(err)
+				continue
 			}
 
 			privateKey, err := crypto.HexToECDSA(data)
 			if err != nil {
 				fmt.Println(err)
+				continue
 			}
 
 			publicKey := privateKey.Public()
 			publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
 			if !ok {
 				fmt.Println(err)
+				continue
 			}
 
 			fromAddress := crypto.PubkeyToAddress(*publicKeyECDSA)
 			balance, err := client.BalanceAt(context.Background(), fromAddress, nil)
 			if err != nil {
 				fmt.Println(err)
+				continue
 			}
 
 			if balance.Cmp(big.NewInt(0)) != 0 {
